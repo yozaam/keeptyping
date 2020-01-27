@@ -1,0 +1,108 @@
+<script src="audiosynth.js"></script>
+
+<style>
+	#yourSong{
+		width: 100%;
+		height: 10%;
+		background: whitesmoke;
+		margin-top: 0%;
+		margin-bottom:5%;
+	}
+
+	#uploadPrompt{
+		display: inline;
+		background-color: #5f5f5f;
+	}
+
+	#uploadFile{
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
+	}
+
+	label {
+    font-size: 1.25em;
+    width: 100%;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+}
+
+
+	label:hover {
+	    background-color: red;
+	}
+
+</style>
+
+<div id="yourSong"> 
+	<center>	
+
+		<!-- <h1 id="uploadPrompt">Upload your own Songs :D</h1> -->
+
+		<label for="uploadFile">Choose your song</label>
+
+		<input name="uploadFile" id="uploadFile" type="file" accept="audio/mp3" onchange="userSong()">
+
+	</center>
+
+</div>
+
+<center	>
+	<textarea name="typebox" id="typebox" cols="130" rows="100" oninput="playIt()"></textarea>
+	<!-- <textarea name="typebox2" id="typebox2" cols="20" rows="100 oninput="playIt2()""></textarea> -->
+</center>
+
+<audio id="myAudio" src="bensound-thejazzpiano.mp3"   >
+
+</audio>
+
+<!-- 
+THIS IS IF I WANT TO PLAY A NOTE WHEN A KEY IS PRESSED TO DEVELOP RYTHMIC TYPING
+ -->
+<script type="text/javascript">
+
+	var piano = Synth.createInstrument('piano');
+
+	var notes = {
+		furelise: ["E","D#","E","D#","E","B","D","C","A","C","E","A"]
+	};
+
+	var i = 0;
+
+	function playIt2(){
+		piano.play(notes.furelise[(i++)%notes.furelise.length],4,1);
+	}
+
+</script>
+
+<script>
+var songChoice = document.getElementById("myAudio");
+var isPaused=false;
+
+function userSong(){
+	var usr = document.getElementById("uploadFile").files[0];
+	songChoice.src = URL.createObjectURL(usr);
+}
+
+var pauser = setTimeout(function(){
+	songChoice.pause(); 
+	isPaused=true;
+}, 4000);
+
+function playIt(){
+	if(isPaused){
+		songChoice.play();
+	}
+	clearTimeout(pauser);
+	pauser=setTimeout(function(){
+		songChoice.pause();
+		isPaused=true;
+	} , 4000);
+}
+
+</script>
